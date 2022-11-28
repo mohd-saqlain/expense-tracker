@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: "Maven pro";
+            text-transform: capitalize;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: .8rem;
+        }
+        
+        h3 {
+            text-align: center;
+            margin: 1rem;
+            color: green;
+        }
+        
+        .container {
+            width: 70%;
+            background-color: bisque;
+            margin: auto;
+            border-radius: 10px;
+        }
+        
+        #name {
+            margin: 1rem;
+            width: 85%;
+            padding: .3rem;
+            font-weight: 600;
+        }
+        
+        #date {
+            margin-left: 1.5rem;
+            width: 40%;
+            padding: .3rem;
+            font-weight: 600;
+        }
+        
+        #amount {
+            width: 33%;
+            padding: .3rem;
+            font-weight: 600;
+        }
+        
+        label {
+            margin: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .btn {
+            margin: 1rem;
+            position: relative;
+            left: 25rem;
+            width: 7rem;
+            height: 2rem;
+            font-size: .9rem;
+            font-weight: 600;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: white;
+            color: green;
+            box-shadow: 2px 3px rgb(153, 101, 101);
+        }
+        
+        .container2 {
+            width: 70%;
+            /* background-color: aqua; */
+            margin: auto;
+        }
+        
+        #th-name {
+            width: 20rem;
+            /* background-color: yellow; */
+            text-align: left;
+            padding: .3rem;
+            border: 1px solid rgb(177, 142, 142);
+        }
+        
+        #th-date {
+            width: 10rem;
+            /* background-color: aquamarine; */
+            text-align: left;
+            padding: .3rem;
+            border: 1px solid rgb(177, 142, 142);
+        }
+        
+        #th-amount {
+            width: 27rem;
+            /* background-color: silver; */
+            text-align: left;
+            padding: .3rem;
+            border: 1px solid rgb(177, 142, 142);
+        }
+        
+        .th-cut {
+            width: 3rem;
+            /* background-color: silver; */
+            text-align: center;
+            padding: .3rem;
+            border: 1px solid rgb(177, 142, 142);
+        }
+        
+        table {
+            border-collapse: collapse;
+            margin: .8rem;
+        }
+        
+        td {
+            padding: .5rem;
+            font-weight: 600;
+            background-color: bisque;
+        }
+        
+        .td-cut {
+            text-align: center;
+        }
+        
+        .modal {
+            position: fixed;
+            display: none;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.4);
+            width: 100%;
+            height: 100%;
+            padding-top: 10rem;
+            font-size: 1.2rem;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            width: 70%;
+            margin: auto;
+        }
+        
+        #close {
+            float: right;
+            font-size: 1.7rem;
+        }
+        
+        #close:hover {
+            cursor: pointer;
+            font-weight: 700;
+        }
+        
+        .td-cut {
+            font-size: 1.5rem;
+        }
+        
+        .td-cut:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body onload="dis()">
+    <h1>Expense tracker</h1>
+    <h3>Add a new item</h3>
+    <div class="container">
+        <form action="" autocomplete="off">
+            <label for="name">Name</label>
+            <input type="text" id="name">
+            <label for="date">Date</label>
+            <input type="date" id="date">
+            <label for="amount">amount</label>
+            <input type="tel" id="amount">
+            <button type="submit" class="btn">add expense</button>
+        </form>
+    </div>
+    <div class="container2">
+        <table class="list">
+            <tr>
+                <th id="th-name">Name</th>
+                <th id="th-date">Date</th>
+                <th id="th-amount">amount</th>
+                <th class="th-cut"></th>
+
+            </tr>
+            <tr id="first">
+                <td>No expenses added yet!</td>
+                <td></td>
+                <td></td>
+                <td class="td-cut"></td>
+            </tr>
+            <!-- <tr>
+                <td>Burger</td>
+                <td>12/12/2020</td>
+                <td>253.29</td>
+                <td class="td-cut">&times;</td>
+            </tr>
+            <tr>
+                <td>Biryani</td>
+                <td>11/11/2020</td>
+                <td>122</td>
+                <td class="td-cut">&times;</td>
+            </tr> -->
+        </table>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <span id="close">&times;</span>
+            <p>Please, fill all the fields!</p>
+        </div>
+    </div>
+
+    <script>
+        const close = document.getElementById("close");
+        const modal = document.getElementsByClassName("modal")[0];
+        const tdcut = document.querySelector(".td-cut");
+        const dis = () => {
+            document.getElementById("first").remove();
+        }
+        document.querySelector(".btn").addEventListener("click", (x) => {
+            x.preventDefault();
+            if (document.getElementById("name").value == "" || document.getElementById("date").value == "" || document.getElementById("amount").value == "") {
+                modal.style.display = "block";
+            } else {
+                const name = document.getElementById("name");
+                const date = document.getElementById("date");
+                const amount = document.getElementById("amount");
+                const tr = document.createElement("tr");
+                const trContent = `<td>${name.value}</td>
+            <td>${date.value}</td>
+            <td>${amount.value}</td>
+            <td class="td-cut">&times;</td>`
+                tr.innerHTML = trContent;
+                document.querySelector(".list").append(tr);
+                name.value = "";
+                date.value = "";
+                amount.value = "";
+            }
+        });
+        close.onclick = () => {
+            modal.style.display = "none"
+        }
+
+        window.onclick = (x) => {
+            if (x.target == modal) {
+                modal.style.display = "none"
+            }
+        }
+
+        document.querySelector(".list").addEventListener("click", (x) => {
+            const tar = document.querySelector(".td-cut").innerHTML;
+            if (x.target.innerHTML == tar) {
+                x.target.parentElement.remove();
+            }
+        })
+    </script>
+</body>
+
+</html>
